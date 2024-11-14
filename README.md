@@ -1,5 +1,3 @@
-Here's a sample `README.md` for the e-commerce product search application, addressing the required points:
-
 ```markdown
 # E-Commerce Product Search Application
 
