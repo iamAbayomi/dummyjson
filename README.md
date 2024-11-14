@@ -1,83 +1,99 @@
-```markdown
 # E-Commerce Product Search Application
 
-This is a multi-page e-commerce product search application built using Next.js and TypeScript. It allows users to search for products, view search results in a responsive grid layout, and view detailed information for each product. The app demonstrates API integration, dynamic routing, and component reusability.
+This project is a multi-page web application built with Next.js that allows users to search for e-commerce products and view detailed information about them. The app showcases proficiency in React, Next.js, TypeScript, API integration, and client-side routing.
 
 ## Table of Contents
-1. [Setup and Running the Application](#setup-and-running-the-application)
-2. [Project Structure and Architecture](#project-structure-and-architecture)
-3. [Styling Decisions](#styling-decisions)
-4. [Assumptions Made](#assumptions-made)
-5. [Future Improvements](#future-improvements)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Project Structure](#project-structure)
+- [Core Features](#core-features)
+- [Libraries Used](#libraries-used)
+- [Architectural Decisions](#architectural-decisions)
+- [Future Improvements](#future-improvements)
 
----
+## Installation
 
-## Setup and Running the Application
+To set up and run the application locally:
 
-### Prerequisites
-- Ensure you have Node.js installed (version 14 or higher is recommended).
-- Install npm or Yarn for package management.
-
-### Installation
-
-1. **Clone the repository**:
+1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/ecommerce-search-app.git
-   cd ecommerce-search-app
+   git clone https://github.com/your-username/your-repo.git
    ```
-
-2. **Install dependencies**:
+2. Navigate to the project directory:
+   ```bash
+   cd your-repo
+   ```
+3. Install dependencies:
    ```bash
    npm install
    ```
-
-3. **Run the development server**:
+4. Start the development server:
    ```bash
    npm run dev
    ```
 
-4. **Open the application**:
-   Navigate to `http://localhost:3000` in your web browser to view the app.
+## Running the Application
 
-## Project Structure and Architecture
+1. After starting the development server, open a browser and go to `http://localhost:3000`.
+2. Use the search bar in the navigation to search for products by keywords.
+3. The search results and product detail pages will be dynamically loaded.
 
-The application is built with **Next.js** using the **App Router** for routing, with components and API services organized for modularity and reusability. Here’s an overview of the main folders:
+## Project Structure
 
-- **`/components`**: Contains reusable components such as `Navbar`, `ProductCard`, and `ProductDetail` for consistent UI across pages.
-- **`/pages`**: Includes the main pages of the application (`index`, `products/[id]`, and `products/search`).
-- **`/services`**: Houses the `api.ts` file, which centralizes API interactions. This allows the `fetchProducts` and `fetchProductById` functions to handle data retrieval from the API.
-- **`/types`**: Defines TypeScript types such as `Product`, ensuring type safety for API responses and component props.
+The project structure is as follows:
 
-### Key Architectural Decisions
+```
+├── app
+│   ├── layout.tsx          # Main layout for the application
+│   ├── page.tsx            # Home page
+│   └── search
+│       └── page.tsx        # Search results page with filter and sorting
+├── components
+│   ├── Navbar.tsx          # Navigation bar with search input
+│   └── ProductCard.tsx     # Component to display each product
+├── services
+│   └── api.ts              # API utility for fetching product data
+└── types
+    └── product.ts          # TypeScript interfaces for product data
+```
 
-1. **Next.js App Router**: Chosen for its efficient routing, dynamic page generation, and SEO benefits through static generation for selected product pages. The app uses `getServerSideProps` for search functionality to retrieve real-time search results.
-2. **API Integration**: The app uses the `DummyJSON` API as a data source. The `fetchProducts` and `fetchProductById` functions are created to standardize the data retrieval process.
-3. **CSS Grid for Responsive Design**: CSS grid is used to create a responsive, visually appealing product listing layout. The grid dynamically adjusts based on screen size, allowing the design to adapt smoothly to different devices.
+## Core Features
 
-### Styling Decisions
+### 1. **Product Search**
+   - Users can search for products using a search bar in the `Navbar`.
+   - The application fetches product data based on the query string and displays the search results on the `SearchPage`.
 
-CSS is used to create a responsive grid design for the product listing on the search page (`/app/search/page.tsx`). Key points of the styling include:
+### 2. **Filter and Sort Options**
+   - **Filter**: Allows users to filter products by category (e.g., Furniture, Groceries, Beauty).
+   - **Sort**: Users can sort products by price, in ascending or descending order.
 
-- **Responsive Grid Layout**: A CSS grid layout is implemented with `grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))`, allowing product cards to adapt based on screen width.
-- **Card Hover Effects**: Each product card has a subtle shadow and a hover effect to improve interactivity and user experience.
-- **Consistent Padding and Centering**: The `product-card` component centers the product image, title, and price to provide a clean, balanced look.
+### 3. **Dynamic and Static Rendering**
+   - A subset of product pages is pre-rendered statically to enhance SEO and load times.
+   - Other pages are dynamically loaded to ensure scalability and a responsive user experience.
 
-## Assumptions Made
+## Libraries Used
 
-- **Static Product Pages**: Static generation (`getStaticPaths` and `getStaticProps`) is applied only to the first 10 products to optimize SEO and load time. All other products are loaded dynamically.
-- **Non-functional "Add to Cart" Button**: The "Add to Cart" button is included as a placeholder, as per the task requirements. Full cart functionality is beyond the scope.
+- **Next.js**: Provides server-rendering and static generation.
+- **React**: Core library for UI components.
+- **TypeScript**: Used throughout the application for type safety.
+- **FontAwesome**: Icon library for UI icons.
+
+## Architectural Decisions
+
+- **Dynamic Query Handling with `useSearchParams`**: In the `SearchPage` component, we use the `useSearchParams` hook from `next/navigation` to handle search query parameters safely on the client side. This allows us to dynamically fetch and display products based on the user's search input.
+  
+- **Component-Based Architecture**: The application is organized with a reusable component structure. For example, the `ProductCard` component is used to display each individual product across pages.
+
+- **Filtering and Sorting Logic**: Implemented directly within the `SearchPage` component. Filtering and sorting are managed through state hooks (`useState`) to enable real-time updates as users change options.
 
 ## Future Improvements
 
-Given more time, the following features and enhancements could improve the application:
+1. **Enhanced Cart Functionality**: Currently, the "Add to Cart" button is a mock action. Future updates could include a fully functional shopping cart with persistent storage.
+2. **More Refined Sorting and Filtering**: Additional sorting criteria (e.g., ratings, popularity) could improve the user experience.
+3. **Pagination for Search Results**: Implementing pagination or infinite scroll for search results could make handling larger data sets more efficient.
+4. **Improved Error Handling**: Enhanced error messages and user feedback for cases where no products match the search query.
+5. **SEO and Accessibility**: Further optimizations for SEO and accessibility could enhance the app’s usability and visibility on search engines.
 
-1. **Advanced Filtering and Sorting**: Implement filters (e.g., by price, category) and sorting options to improve user control over search results.
-2. **Pagination for Search Results**: Implement pagination to handle larger datasets effectively and improve load times.
-3. **Full "Add to Cart" Functionality**: Expand the cart button to enable item selection and add a cart management system.
-4. **Enhanced SEO**: Improve SEO by pre-rendering more product pages and using structured data.
-5. **Better Error Handling**: Add user-friendly error messages for network issues or empty search results.
+--- 
 
----
-
-This project demonstrates proficiency in TypeScript, Next.js routing, API integration, and creating responsive layouts with CSS grid. The design is modular, extensible, and follows best practices for a clean and maintainable codebase.
-```
+This README provides instructions for setup, running the app, and detailed insights into the application’s architecture and potential improvements.
