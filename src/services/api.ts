@@ -4,7 +4,7 @@ import { Product } from '../types/product';
 
 const API_URL = 'https://dummyjson.com/products';
 
-export const fetchProducts = async (searchQuery: string): Promise<Product[]> => {
+export const fetchProducts = async (searchQuery?: string): Promise<Product[]> => {
   const response = await axios.get(`${API_URL}/search?q=${searchQuery}`);
   return response.data.products;
 };
