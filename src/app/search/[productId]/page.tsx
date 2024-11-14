@@ -1,4 +1,5 @@
 // app/search/[productId]/page.tsx
+
 import { fetchProductById, fetchProducts } from '../../../services/api';
 import ProductDetail from '../../../components/ProductDetail';
 import { Product } from '../../../types/product';
