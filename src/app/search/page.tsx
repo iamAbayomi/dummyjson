@@ -1,13 +1,13 @@
 // app/search/page.tsx
-"use client"
+"use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react"; // Import Suspense
 import { useSearchParams } from "next/navigation";
 import { fetchProducts } from "../../services/api";
 import ProductCard from "../../components/ProductCard";
 import { Product } from "../../types/product";
 
-const SearchPage: React.FC = () => {
+const SearchPageContent: React.FC = () => {
   const searchParams = useSearchParams(); // Use Next.js's `useSearchParams` hook for client-side-safe query access
   const query = searchParams.get("query") || ""; // Safely get the query parameter
   const [products, setProducts] = useState<Product[]>([]); // State for fetched products
@@ -71,6 +71,15 @@ const SearchPage: React.FC = () => {
         ))}
       </div>
     </div>
+  );
+};
+
+// Wrap the component with Suspense to handle the useSearchParams()
+const SearchPage: React.FC = () => {
+  return (
+    <Suspense fallback={<div>Loading search results...</div>}>
+      <SearchPageContent />
+    </Suspense>
   );
 };
 
