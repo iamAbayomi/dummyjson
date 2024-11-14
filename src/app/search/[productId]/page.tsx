@@ -1,29 +1,34 @@
-// app/search/[productId]/page.tsx
-"use client";
-
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import { Product } from "../../../types/product";
 import Image from "next/image";
-import { fetchProductById } from "@/services/api";
+import { fetchProductById, fetchProducts } from "@/services/api";
 
-const ProductPage: React.FC = () => {
-  const { productId } = useParams(); // Access productId from route params
-  const [product, setProduct] = useState<Product | null>(null);
+// This function generates static pages for the first 10 products
+export async function generateStaticParams() {
+  const products: Product[] = await fetchProducts();
+  const paths = products.slice(0, 10).map((product) => ({
+    productId: product.id.toString(),
+  }));
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (productId) {
-        const fetchedProduct = await fetchProductById(
-          parseInt(productId.toString()) // Convert to number if necessary
-        );
-        setProduct(fetchedProduct);
-      }
-    };
-    fetchData();
-  }, [productId]);
+  return paths;
+}
 
-  if (!product) return <p>Loading...</p>;
+// Define the type for props
+// interface ProductPageProps {
+//   params: {
+//     productId: string;
+//   };
+// }
+
+// The Server Component for product page rendering
+const ProductPage = async (params: { params: Promise<{ productId: string}>}) => {
+//  const { productId } = params;
+
+  // Dynamically fetch product data
+  const product: Product = await fetchProductById(parseInt((await params.params).productId));
+
+  if (!product) {
+    return <p>Product not found.</p>;
+  }
 
   return (
     <div className="product-detail">
